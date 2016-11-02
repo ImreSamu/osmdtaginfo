@@ -63,7 +63,9 @@ Example URLS for "Central America" ( not exists yet )
   *  Docker version 1.12.2        (`docker --version `)
   *  docker-compose version 1.8.1 (`docker-compose --version`)
 
-#### Test step 0: ( download data, build containers, ...)
+#### Test step 0: ( git clone;  download data ;  build containers, ...)
+* `git clone https://github.com/ImreSamu/osmdtaginfo.git`
+* `cd osmdtaginfo`
 * `./test.sh`
 
 #### Test 'ht'  -  Haiti :
@@ -80,8 +82,7 @@ Example URLS for "Central America" ( not exists yet )
 [2016-11-02 19:01:27] INFO  WEBrick::HTTPServer#start: pid=13 port=4567
 ```
 *  go with a browser   x.x.x.x:4567   ( in my example: [172.21.0.3:4527](http://172.21.0.3:4527) )
-to finish:
-*  ctr-c  ->  stop the containers ...
+to finish:   ctr-c  ->  stop the containers ...
 *  `make down` 
 *  `make clean`
 
