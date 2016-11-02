@@ -1,0 +1,29 @@
+# generated : {{utcnow}}  // template : ./setup/Makefile.jinja2
+.PHONY: all
+
+all: build
+
+build:
+	cd ./docker && docker build -t taginfo_job  -f taginfo_job.Dockerfile  . && cd ..
+	cd ./docker && docker build -t taginfo_view -f taginfo_view.Dockerfile . && cd ..
+	docker images | grep taginfo_dev
+
+dev:
+	docker-compose run --rm taginfo_dev /bin/bash
+
+down:
+	docker-compose down
+
+clean:
+	docker-compose rm -f -v
+
+{% for item in items %}
+test_{{item.iso}}:
+	echo " Start test  {{item.iso}} - {{item.name_en}} "
+	docker-compose run --rm taginfo_job_{{item.iso}} /osm/sh/osm_split.sh
+	docker-compose run --rm taginfo_job_{{item.iso}} /osm/sh/osm_jobinit.sh
+	docker-compose run --rm taginfo_view_{{item.iso}}
+
+{% endfor %}
+
+# generated : {{utcnow}}

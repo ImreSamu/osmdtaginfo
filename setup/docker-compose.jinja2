@@ -1,0 +1,72 @@
+
+# generated : {{utcnow}}  // template : /setup/docker-compose.jinja2
+version: '2'
+
+volumes:
+  postgres_data: {}
+
+services:
+
+  # for the setup
+  db:
+    image: mdillon/postgis:9.6 
+    volumes:
+      - postgres_data:/var/lib/postgresql/data    
+    tmpfs:
+     - /tmp
+    environment:
+     - POSTGRES_DB=osm
+     - POSTGRES_USER=osm
+     - POSTGRES_PASSWORD=osm 
+
+  # for the setup & development  
+  taginfo_dev:
+    extends:
+      file: common-services.yml
+      service: taginfo_job
+    volumes:
+     - ./taginfo_data/ni/data:/osm/data
+     - ./taginfo_data/ni:/osm/cfg
+     - ./taginfo_data:/osm/taginfo_data
+     - ./import:/osm/import
+     - ./export:/osm/export
+     - ./setup:/osm/setup
+     - ./sh:/osm/sh
+    environment:
+     - INPUT_OSM=central-america-latest.osm.pbf
+     - AREA_ID=ni
+    links:
+     - db:db
+    environment:
+     - PGHOST=db         
+     - PGUSER=osm
+     - PGDATABASE=osm
+     - PGPASSWORD=osm
+
+
+{% for item in items %}
+  #---------------------------------------------------------
+  # testing service for : "{{item.iso}}" - "{{item.name_en}}"
+  #
+  taginfo_job_{{item.iso}}:
+    extends:
+      file: common-services.yml
+      service: taginfo_job
+    volumes:
+     - ./taginfo_data/{{item.iso}}/data:/osm/data
+     - ./taginfo_data/{{item.iso}}:/osm/cfg
+    environment:
+     - INPUT_OSM=central-america-latest.osm.pbf
+     - AREA_ID={{item.iso}}
+     - AREA_NAME="{{item.name_en}}"
+
+  taginfo_view_{{item.iso}}:
+    extends:
+      file: common-services.yml
+      service: taginfo_view
+    volumes:
+     - ./taginfo_data/{{item.iso}}/data:/osm/data
+     - ./taginfo_data/{{item.iso}}:/osm/cfg
+{% endfor %}
+
+# generated : {{utcnow}}  // template : /setup/docker-compose.jinja2

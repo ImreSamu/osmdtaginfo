@@ -1,0 +1,601 @@
+
+# generated : 2016-11-02:17:43  // template : /setup/docker-compose.jinja2
+version: '2'
+
+volumes:
+  postgres_data: {}
+
+services:
+
+  # for the setup
+  db:
+    image: mdillon/postgis:9.6 
+    volumes:
+      - postgres_data:/var/lib/postgresql/data    
+    tmpfs:
+     - /tmp
+    environment:
+     - POSTGRES_DB=osm
+     - POSTGRES_USER=osm
+     - POSTGRES_PASSWORD=osm 
+
+  # for the setup & development  
+  taginfo_dev:
+    extends:
+      file: common-services.yml
+      service: taginfo_job
+    volumes:
+     - ./taginfo_data/ni/data:/osm/data
+     - ./taginfo_data/ni:/osm/cfg
+     - ./taginfo_data:/osm/taginfo_data
+     - ./import:/osm/import
+     - ./export:/osm/export
+     - ./setup:/osm/setup
+     - ./sh:/osm/sh
+    environment:
+     - INPUT_OSM=central-america-latest.osm.pbf
+     - AREA_ID=ni
+    links:
+     - db:db
+    environment:
+     - PGHOST=db         
+     - PGUSER=osm
+     - PGDATABASE=osm
+     - PGPASSWORD=osm
+
+
+
+  #---------------------------------------------------------
+  # testing service for : "ag" - "Antigua and Barbuda"
+  #
+  taginfo_job_ag:
+    extends:
+      file: common-services.yml
+      service: taginfo_job
+    volumes:
+     - ./taginfo_data/ag/data:/osm/data
+     - ./taginfo_data/ag:/osm/cfg
+    environment:
+     - INPUT_OSM=central-america-latest.osm.pbf
+     - AREA_ID=ag
+     - AREA_NAME="Antigua and Barbuda"
+
+  taginfo_view_ag:
+    extends:
+      file: common-services.yml
+      service: taginfo_view
+    volumes:
+     - ./taginfo_data/ag/data:/osm/data
+     - ./taginfo_data/ag:/osm/cfg
+
+  #---------------------------------------------------------
+  # testing service for : "ai" - "Anguilla"
+  #
+  taginfo_job_ai:
+    extends:
+      file: common-services.yml
+      service: taginfo_job
+    volumes:
+     - ./taginfo_data/ai/data:/osm/data
+     - ./taginfo_data/ai:/osm/cfg
+    environment:
+     - INPUT_OSM=central-america-latest.osm.pbf
+     - AREA_ID=ai
+     - AREA_NAME="Anguilla"
+
+  taginfo_view_ai:
+    extends:
+      file: common-services.yml
+      service: taginfo_view
+    volumes:
+     - ./taginfo_data/ai/data:/osm/data
+     - ./taginfo_data/ai:/osm/cfg
+
+  #---------------------------------------------------------
+  # testing service for : "bb" - "Barbados"
+  #
+  taginfo_job_bb:
+    extends:
+      file: common-services.yml
+      service: taginfo_job
+    volumes:
+     - ./taginfo_data/bb/data:/osm/data
+     - ./taginfo_data/bb:/osm/cfg
+    environment:
+     - INPUT_OSM=central-america-latest.osm.pbf
+     - AREA_ID=bb
+     - AREA_NAME="Barbados"
+
+  taginfo_view_bb:
+    extends:
+      file: common-services.yml
+      service: taginfo_view
+    volumes:
+     - ./taginfo_data/bb/data:/osm/data
+     - ./taginfo_data/bb:/osm/cfg
+
+  #---------------------------------------------------------
+  # testing service for : "bs" - "The Bahamas"
+  #
+  taginfo_job_bs:
+    extends:
+      file: common-services.yml
+      service: taginfo_job
+    volumes:
+     - ./taginfo_data/bs/data:/osm/data
+     - ./taginfo_data/bs:/osm/cfg
+    environment:
+     - INPUT_OSM=central-america-latest.osm.pbf
+     - AREA_ID=bs
+     - AREA_NAME="The Bahamas"
+
+  taginfo_view_bs:
+    extends:
+      file: common-services.yml
+      service: taginfo_view
+    volumes:
+     - ./taginfo_data/bs/data:/osm/data
+     - ./taginfo_data/bs:/osm/cfg
+
+  #---------------------------------------------------------
+  # testing service for : "cr" - "Costa Rica"
+  #
+  taginfo_job_cr:
+    extends:
+      file: common-services.yml
+      service: taginfo_job
+    volumes:
+     - ./taginfo_data/cr/data:/osm/data
+     - ./taginfo_data/cr:/osm/cfg
+    environment:
+     - INPUT_OSM=central-america-latest.osm.pbf
+     - AREA_ID=cr
+     - AREA_NAME="Costa Rica"
+
+  taginfo_view_cr:
+    extends:
+      file: common-services.yml
+      service: taginfo_view
+    volumes:
+     - ./taginfo_data/cr/data:/osm/data
+     - ./taginfo_data/cr:/osm/cfg
+
+  #---------------------------------------------------------
+  # testing service for : "cu" - "Cuba"
+  #
+  taginfo_job_cu:
+    extends:
+      file: common-services.yml
+      service: taginfo_job
+    volumes:
+     - ./taginfo_data/cu/data:/osm/data
+     - ./taginfo_data/cu:/osm/cfg
+    environment:
+     - INPUT_OSM=central-america-latest.osm.pbf
+     - AREA_ID=cu
+     - AREA_NAME="Cuba"
+
+  taginfo_view_cu:
+    extends:
+      file: common-services.yml
+      service: taginfo_view
+    volumes:
+     - ./taginfo_data/cu/data:/osm/data
+     - ./taginfo_data/cu:/osm/cfg
+
+  #---------------------------------------------------------
+  # testing service for : "dm" - "Dominica"
+  #
+  taginfo_job_dm:
+    extends:
+      file: common-services.yml
+      service: taginfo_job
+    volumes:
+     - ./taginfo_data/dm/data:/osm/data
+     - ./taginfo_data/dm:/osm/cfg
+    environment:
+     - INPUT_OSM=central-america-latest.osm.pbf
+     - AREA_ID=dm
+     - AREA_NAME="Dominica"
+
+  taginfo_view_dm:
+    extends:
+      file: common-services.yml
+      service: taginfo_view
+    volumes:
+     - ./taginfo_data/dm/data:/osm/data
+     - ./taginfo_data/dm:/osm/cfg
+
+  #---------------------------------------------------------
+  # testing service for : "do" - "Dominican Republic"
+  #
+  taginfo_job_do:
+    extends:
+      file: common-services.yml
+      service: taginfo_job
+    volumes:
+     - ./taginfo_data/do/data:/osm/data
+     - ./taginfo_data/do:/osm/cfg
+    environment:
+     - INPUT_OSM=central-america-latest.osm.pbf
+     - AREA_ID=do
+     - AREA_NAME="Dominican Republic"
+
+  taginfo_view_do:
+    extends:
+      file: common-services.yml
+      service: taginfo_view
+    volumes:
+     - ./taginfo_data/do/data:/osm/data
+     - ./taginfo_data/do:/osm/cfg
+
+  #---------------------------------------------------------
+  # testing service for : "gd" - "Grenada"
+  #
+  taginfo_job_gd:
+    extends:
+      file: common-services.yml
+      service: taginfo_job
+    volumes:
+     - ./taginfo_data/gd/data:/osm/data
+     - ./taginfo_data/gd:/osm/cfg
+    environment:
+     - INPUT_OSM=central-america-latest.osm.pbf
+     - AREA_ID=gd
+     - AREA_NAME="Grenada"
+
+  taginfo_view_gd:
+    extends:
+      file: common-services.yml
+      service: taginfo_view
+    volumes:
+     - ./taginfo_data/gd/data:/osm/data
+     - ./taginfo_data/gd:/osm/cfg
+
+  #---------------------------------------------------------
+  # testing service for : "hn" - "Honduras"
+  #
+  taginfo_job_hn:
+    extends:
+      file: common-services.yml
+      service: taginfo_job
+    volumes:
+     - ./taginfo_data/hn/data:/osm/data
+     - ./taginfo_data/hn:/osm/cfg
+    environment:
+     - INPUT_OSM=central-america-latest.osm.pbf
+     - AREA_ID=hn
+     - AREA_NAME="Honduras"
+
+  taginfo_view_hn:
+    extends:
+      file: common-services.yml
+      service: taginfo_view
+    volumes:
+     - ./taginfo_data/hn/data:/osm/data
+     - ./taginfo_data/hn:/osm/cfg
+
+  #---------------------------------------------------------
+  # testing service for : "ht" - "Haiti"
+  #
+  taginfo_job_ht:
+    extends:
+      file: common-services.yml
+      service: taginfo_job
+    volumes:
+     - ./taginfo_data/ht/data:/osm/data
+     - ./taginfo_data/ht:/osm/cfg
+    environment:
+     - INPUT_OSM=central-america-latest.osm.pbf
+     - AREA_ID=ht
+     - AREA_NAME="Haiti"
+
+  taginfo_view_ht:
+    extends:
+      file: common-services.yml
+      service: taginfo_view
+    volumes:
+     - ./taginfo_data/ht/data:/osm/data
+     - ./taginfo_data/ht:/osm/cfg
+
+  #---------------------------------------------------------
+  # testing service for : "jm" - "Jamaica"
+  #
+  taginfo_job_jm:
+    extends:
+      file: common-services.yml
+      service: taginfo_job
+    volumes:
+     - ./taginfo_data/jm/data:/osm/data
+     - ./taginfo_data/jm:/osm/cfg
+    environment:
+     - INPUT_OSM=central-america-latest.osm.pbf
+     - AREA_ID=jm
+     - AREA_NAME="Jamaica"
+
+  taginfo_view_jm:
+    extends:
+      file: common-services.yml
+      service: taginfo_view
+    volumes:
+     - ./taginfo_data/jm/data:/osm/data
+     - ./taginfo_data/jm:/osm/cfg
+
+  #---------------------------------------------------------
+  # testing service for : "kn" - "Saint Kitts and Nevis"
+  #
+  taginfo_job_kn:
+    extends:
+      file: common-services.yml
+      service: taginfo_job
+    volumes:
+     - ./taginfo_data/kn/data:/osm/data
+     - ./taginfo_data/kn:/osm/cfg
+    environment:
+     - INPUT_OSM=central-america-latest.osm.pbf
+     - AREA_ID=kn
+     - AREA_NAME="Saint Kitts and Nevis"
+
+  taginfo_view_kn:
+    extends:
+      file: common-services.yml
+      service: taginfo_view
+    volumes:
+     - ./taginfo_data/kn/data:/osm/data
+     - ./taginfo_data/kn:/osm/cfg
+
+  #---------------------------------------------------------
+  # testing service for : "ky" - "Cayman Islands"
+  #
+  taginfo_job_ky:
+    extends:
+      file: common-services.yml
+      service: taginfo_job
+    volumes:
+     - ./taginfo_data/ky/data:/osm/data
+     - ./taginfo_data/ky:/osm/cfg
+    environment:
+     - INPUT_OSM=central-america-latest.osm.pbf
+     - AREA_ID=ky
+     - AREA_NAME="Cayman Islands"
+
+  taginfo_view_ky:
+    extends:
+      file: common-services.yml
+      service: taginfo_view
+    volumes:
+     - ./taginfo_data/ky/data:/osm/data
+     - ./taginfo_data/ky:/osm/cfg
+
+  #---------------------------------------------------------
+  # testing service for : "lc" - "Saint Lucia"
+  #
+  taginfo_job_lc:
+    extends:
+      file: common-services.yml
+      service: taginfo_job
+    volumes:
+     - ./taginfo_data/lc/data:/osm/data
+     - ./taginfo_data/lc:/osm/cfg
+    environment:
+     - INPUT_OSM=central-america-latest.osm.pbf
+     - AREA_ID=lc
+     - AREA_NAME="Saint Lucia"
+
+  taginfo_view_lc:
+    extends:
+      file: common-services.yml
+      service: taginfo_view
+    volumes:
+     - ./taginfo_data/lc/data:/osm/data
+     - ./taginfo_data/lc:/osm/cfg
+
+  #---------------------------------------------------------
+  # testing service for : "ms" - "Montserrat"
+  #
+  taginfo_job_ms:
+    extends:
+      file: common-services.yml
+      service: taginfo_job
+    volumes:
+     - ./taginfo_data/ms/data:/osm/data
+     - ./taginfo_data/ms:/osm/cfg
+    environment:
+     - INPUT_OSM=central-america-latest.osm.pbf
+     - AREA_ID=ms
+     - AREA_NAME="Montserrat"
+
+  taginfo_view_ms:
+    extends:
+      file: common-services.yml
+      service: taginfo_view
+    volumes:
+     - ./taginfo_data/ms/data:/osm/data
+     - ./taginfo_data/ms:/osm/cfg
+
+  #---------------------------------------------------------
+  # testing service for : "ni" - "Nicaragua"
+  #
+  taginfo_job_ni:
+    extends:
+      file: common-services.yml
+      service: taginfo_job
+    volumes:
+     - ./taginfo_data/ni/data:/osm/data
+     - ./taginfo_data/ni:/osm/cfg
+    environment:
+     - INPUT_OSM=central-america-latest.osm.pbf
+     - AREA_ID=ni
+     - AREA_NAME="Nicaragua"
+
+  taginfo_view_ni:
+    extends:
+      file: common-services.yml
+      service: taginfo_view
+    volumes:
+     - ./taginfo_data/ni/data:/osm/data
+     - ./taginfo_data/ni:/osm/cfg
+
+  #---------------------------------------------------------
+  # testing service for : "nl" - "The Netherlands"
+  #
+  taginfo_job_nl:
+    extends:
+      file: common-services.yml
+      service: taginfo_job
+    volumes:
+     - ./taginfo_data/nl/data:/osm/data
+     - ./taginfo_data/nl:/osm/cfg
+    environment:
+     - INPUT_OSM=central-america-latest.osm.pbf
+     - AREA_ID=nl
+     - AREA_NAME="The Netherlands"
+
+  taginfo_view_nl:
+    extends:
+      file: common-services.yml
+      service: taginfo_view
+    volumes:
+     - ./taginfo_data/nl/data:/osm/data
+     - ./taginfo_data/nl:/osm/cfg
+
+  #---------------------------------------------------------
+  # testing service for : "pa" - "Panama"
+  #
+  taginfo_job_pa:
+    extends:
+      file: common-services.yml
+      service: taginfo_job
+    volumes:
+     - ./taginfo_data/pa/data:/osm/data
+     - ./taginfo_data/pa:/osm/cfg
+    environment:
+     - INPUT_OSM=central-america-latest.osm.pbf
+     - AREA_ID=pa
+     - AREA_NAME="Panama"
+
+  taginfo_view_pa:
+    extends:
+      file: common-services.yml
+      service: taginfo_view
+    volumes:
+     - ./taginfo_data/pa/data:/osm/data
+     - ./taginfo_data/pa:/osm/cfg
+
+  #---------------------------------------------------------
+  # testing service for : "sv" - "El Salvador"
+  #
+  taginfo_job_sv:
+    extends:
+      file: common-services.yml
+      service: taginfo_job
+    volumes:
+     - ./taginfo_data/sv/data:/osm/data
+     - ./taginfo_data/sv:/osm/cfg
+    environment:
+     - INPUT_OSM=central-america-latest.osm.pbf
+     - AREA_ID=sv
+     - AREA_NAME="El Salvador"
+
+  taginfo_view_sv:
+    extends:
+      file: common-services.yml
+      service: taginfo_view
+    volumes:
+     - ./taginfo_data/sv/data:/osm/data
+     - ./taginfo_data/sv:/osm/cfg
+
+  #---------------------------------------------------------
+  # testing service for : "tc" - "Turks and Caicos Islands"
+  #
+  taginfo_job_tc:
+    extends:
+      file: common-services.yml
+      service: taginfo_job
+    volumes:
+     - ./taginfo_data/tc/data:/osm/data
+     - ./taginfo_data/tc:/osm/cfg
+    environment:
+     - INPUT_OSM=central-america-latest.osm.pbf
+     - AREA_ID=tc
+     - AREA_NAME="Turks and Caicos Islands"
+
+  taginfo_view_tc:
+    extends:
+      file: common-services.yml
+      service: taginfo_view
+    volumes:
+     - ./taginfo_data/tc/data:/osm/data
+     - ./taginfo_data/tc:/osm/cfg
+
+  #---------------------------------------------------------
+  # testing service for : "tt" - "Trinidad and Tobago"
+  #
+  taginfo_job_tt:
+    extends:
+      file: common-services.yml
+      service: taginfo_job
+    volumes:
+     - ./taginfo_data/tt/data:/osm/data
+     - ./taginfo_data/tt:/osm/cfg
+    environment:
+     - INPUT_OSM=central-america-latest.osm.pbf
+     - AREA_ID=tt
+     - AREA_NAME="Trinidad and Tobago"
+
+  taginfo_view_tt:
+    extends:
+      file: common-services.yml
+      service: taginfo_view
+    volumes:
+     - ./taginfo_data/tt/data:/osm/data
+     - ./taginfo_data/tt:/osm/cfg
+
+  #---------------------------------------------------------
+  # testing service for : "vc" - "Saint Vincent and the Grenadines"
+  #
+  taginfo_job_vc:
+    extends:
+      file: common-services.yml
+      service: taginfo_job
+    volumes:
+     - ./taginfo_data/vc/data:/osm/data
+     - ./taginfo_data/vc:/osm/cfg
+    environment:
+     - INPUT_OSM=central-america-latest.osm.pbf
+     - AREA_ID=vc
+     - AREA_NAME="Saint Vincent and the Grenadines"
+
+  taginfo_view_vc:
+    extends:
+      file: common-services.yml
+      service: taginfo_view
+    volumes:
+     - ./taginfo_data/vc/data:/osm/data
+     - ./taginfo_data/vc:/osm/cfg
+
+  #---------------------------------------------------------
+  # testing service for : "vg" - "British Virgin Islands"
+  #
+  taginfo_job_vg:
+    extends:
+      file: common-services.yml
+      service: taginfo_job
+    volumes:
+     - ./taginfo_data/vg/data:/osm/data
+     - ./taginfo_data/vg:/osm/cfg
+    environment:
+     - INPUT_OSM=central-america-latest.osm.pbf
+     - AREA_ID=vg
+     - AREA_NAME="British Virgin Islands"
+
+  taginfo_view_vg:
+    extends:
+      file: common-services.yml
+      service: taginfo_view
+    volumes:
+     - ./taginfo_data/vg/data:/osm/data
+     - ./taginfo_data/vg:/osm/cfg
+
+
+# generated : 2016-11-02:17:43  // template : /setup/docker-compose.jinja2
