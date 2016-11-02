@@ -24,7 +24,7 @@ else
    make
 fi
 
-
+mkdir -p /osm/cfg/joblog
 mkdir -p /osm/taginfo/var/sources/log
 
 mkdir -p ${TAGINFO_BUILD_DIR}
@@ -41,10 +41,6 @@ chmod g+s ${TAGINFO_DOWNLOAD_DIR}
 #chmod g+s /osm/taginfo_data/cfg/poly/
 #chmod g+s /osm/taginfo_data/cfg/input/
 
-#osmconvert /osm/import/$INPUT_OSM  -B=/osm/cfg/poly/osm.poly -o=/osm/cfg/input/area.osm.pbf
-#chmod 644 /osm/cfg/input/area.osm.pbf
-
-# chown -R postgres ${TAGINFO_BUILD_DIR}
 
 cd /osm/taginfo/sources
 

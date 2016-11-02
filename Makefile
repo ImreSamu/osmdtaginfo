@@ -6,7 +6,7 @@ all: build
 build:
 	cd ./docker && docker build -t taginfo_job  -f taginfo_job.Dockerfile  . && cd ..
 	cd ./docker && docker build -t taginfo_view -f taginfo_view.Dockerfile . && cd ..
-	docker images | grep taginfo_dev
+	docker images | grep taginfo
 
 dev:
 	docker-compose run --rm taginfo_dev /bin/bash
