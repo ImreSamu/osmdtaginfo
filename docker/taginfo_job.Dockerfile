@@ -69,11 +69,12 @@ RUN apt-get update \
     && rm -rf /var/lib/apt/lists/
 
 ### install imposm3  ( need for setup )
+ENV IMPOSM3VER imposm3-0.3.0dev-20170119-353bc5d-linux-x86-64
 RUN mkdir /tools \
     && cd /tools \
-    && wget http://imposm.org/static/rel/imposm3-0.2.0dev-20161012-ee59cf2-linux-x86-64.tar.gz \
-    && tar zxvf imposm3-0.2.0dev-20161012-ee59cf2-linux-x86-64.tar.gz \
-    && ln -s imposm3-0.2.0dev-20161012-ee59cf2-linux-x86-64 latest
+    && wget http://imposm.org/static/rel/${IMPOSM3VER}.tar.gz \
+    && tar zxvf ${IMPOSM3VER}.tar.gz \
+    && ln -s ${IMPOSM3VER} latest
 
 ### install taginfo
 RUN    mkdir -p /osm/taginfo/ \
