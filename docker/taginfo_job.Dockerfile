@@ -66,6 +66,7 @@ RUN apt-get update \
     && apt-get install -y --no-install-recommends \
        osmctools \
        mc \
+       unzip \
     && rm -rf /var/lib/apt/lists/
 
 ### install imposm3  ( need for setup )
@@ -75,6 +76,13 @@ RUN mkdir /tools \
     && wget http://imposm.org/static/rel/${IMPOSM3VER}.tar.gz \
     && tar zxvf ${IMPOSM3VER}.tar.gz \
     && ln -s ${IMPOSM3VER} latest
+
+# install  julien-noblet/download-geofabrik
+RUN cd /tools \
+    && wget https://github.com/julien-noblet/download-geofabrik/releases/download/v2.0.0/download-geofabrik-android_amd64.zip \
+    && unzip download-geofabrik-android_amd64.zip \
+    && rm download-geofabrik-android_amd64.zip \
+    && ./download-geofabrik update
 
 ### install taginfo
 RUN    mkdir -p /osm/taginfo/ \
