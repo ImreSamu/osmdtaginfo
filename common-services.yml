@@ -16,7 +16,7 @@ services:
      - AREA_ID=ht
 
   taginfo_view:
-    mem_limit: 60M
+    mem_limit: 50M
     restart: always
     image: taginfo_view
     build:
