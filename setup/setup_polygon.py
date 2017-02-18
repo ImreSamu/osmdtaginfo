@@ -21,6 +21,7 @@ except:
   print "Connection to database failed"
 
 
+CONTINENT = os.environ.get('CONTINENT', 'xx')
 
 
 def qiso():
@@ -116,23 +117,23 @@ def createisopoly(iso,id):
 
         wkt = results[0][0]
 
-        img_directory='/osm/export/'+iso+'/img/'
+        img_directory='/osm/service/'+CONTINENT+'/'+iso+'/img/'
         if not os.path.exists(img_directory):
             os.makedirs(img_directory)
 
-        data_directory='/osm/export/'+iso+'/data/'
+        data_directory='/osm/service/'+CONTINENT+'/'+iso+'/data/'
         if not os.path.exists(data_directory):
             os.makedirs(data_directory)
 
-        input_directory='/osm/export/'+iso+'/input/'
+        input_directory='/osm/service/'+CONTINENT+'/'+iso+'/input/'
         if not os.path.exists(input_directory):
             os.makedirs(input_directory)
 
-        joblog_directory='/osm/export/'+iso+'/joblog/'
+        joblog_directory='/osm/service/'+CONTINENT+'/'+iso+'/joblog/'
         if not os.path.exists(joblog_directory):
             os.makedirs(joblog_directory)
 
-        poly_directory='/osm/export/'+iso+'/poly/'
+        poly_directory='/osm/service/'+CONTINENT+'/'+iso+'/poly/'
         if not os.path.exists(poly_directory):
             os.makedirs(poly_directory)
 

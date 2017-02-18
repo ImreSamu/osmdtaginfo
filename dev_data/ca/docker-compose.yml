@@ -1,0 +1,60 @@
+# generated : 2017-02-15:23:07  // template : /setup/docker-compose.jinja2
+version: '2'
+services:
+
+  #---------------------------------------------------------
+  # testing service for : "ag" - "Antigua and Barbuda"
+  #            continent: "ca"
+  #
+  taginfo_job_ca_ag:
+    extends:
+      file: common-services.yml
+      service: taginfo_job
+    volumes:
+     - ./taginfo_data/ca/ag/data:/osm/data
+     - ./taginfo_data/ca/ag:/osm/cfg
+    environment:
+     - INPUT_OSM=central-america-latest.osm.pbf
+     - AREA_ID=ag
+     - AREA_NAME="Antigua and Barbuda"
+     - CONTINENT="ca"
+
+  taginfo_view_ca_ag:
+    extends:
+      file: common-services.yml
+      service: taginfo_view
+    ports:
+    - "5401:4567"      
+    volumes:
+     - ./taginfo_data/ca/ag/data:/osm/data
+     - ./taginfo_data/ca/ag:/osm/cfg
+
+  #---------------------------------------------------------
+  # testing service for : "ai" - "Anguilla"
+  #            continent: "ca"
+  #
+  taginfo_job_ca_ai:
+    extends:
+      file: common-services.yml
+      service: taginfo_job
+    volumes:
+     - ./taginfo_data/ca/ai/data:/osm/data
+     - ./taginfo_data/ca/ai:/osm/cfg
+    environment:
+     - INPUT_OSM=central-america-latest.osm.pbf
+     - AREA_ID=ai
+     - AREA_NAME="Anguilla"
+     - CONTINENT="ca"
+
+  taginfo_view_ca_ai:
+    extends:
+      file: common-services.yml
+      service: taginfo_view
+    ports:
+    - "5402:4567"      
+    volumes:
+     - ./taginfo_data/ca/ai/data:/osm/data
+     - ./taginfo_data/ca/ai:/osm/cfg
+
+
+# generated : 2017-02-15:23:07  // template : /setup/docker-compose.jinja2

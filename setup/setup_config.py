@@ -15,6 +15,7 @@ try:
 except:
   print "Connection to database failed"
 
+CONTINENT = os.environ.get('CONTINENT', 'xx')
 
 def run_config_gen():
         curiso = conn.cursor()
@@ -64,7 +65,7 @@ def createiso_config(iso, mapscale, name , name_en):
     )
     # print tagconf
 
-    config_directory='/osm/export/'+iso+'/'
+    config_directory='/osm/service/'+CONTINENT+'/'+iso+'/'
     if not os.path.exists(config_directory):
          os.makedirs(config_directory)
 

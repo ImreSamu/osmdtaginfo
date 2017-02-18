@@ -2,10 +2,14 @@ from jinja2 import Template
 from jinja2 import Environment
 from jinja2 import FileSystemLoader
 
-import os.path
+import os
+import sys
 import yaml
 import psycopg2
 import datetime
+
+reload(sys)
+sys.setdefaultencoding('utf-8')
 
 script_root = os.path.dirname(__file__)
 
@@ -15,6 +19,7 @@ try:
 except:
   print "Connection to database failed"
 
+CONTINENT = os.environ.get('CONTINENT', 'xx')
 
 def run_makefile_gen():
         curiso = conn.cursor()
@@ -48,15 +53,16 @@ def create_makefile(items):
     template = environment.get_template(template_name)
     tagconf = template.render(
         items=items,
+        continent=CONTINENT,
         utcnow=datetime.datetime.utcnow().strftime('%Y-%m-%d:%H:%M').decode("utf8"),
     )
-    print tagconf
+    print tagconf.encode('utf-8')
 
-    dockerconfig_directory='/osm/export/'
+    dockerconfig_directory='/osm/service/'
     if not os.path.exists(dockerconfig_directory):
          os.makedirs(dockerconfig_directory)
 
-    fconf = open( dockerconfig_directory + 'Makefile', 'w')
+    fconf = open( dockerconfig_directory + CONTINENT + '_Makefile', 'w')
     fconf.write(tagconf.encode("utf8"))
     fconf.close()
 

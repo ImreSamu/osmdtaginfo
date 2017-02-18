@@ -3,6 +3,10 @@ set -o errexit
 set -o pipefail
 set -o nounset
 
+inputpbf=$1
+
+echo "$(date) - importing: $inputpbf "
+
 while ! pg_isready
 do
     echo "$(date) - waiting for PG database to start"
@@ -11,19 +15,14 @@ done
 
 readonly PG_CONNECT="postgis://"
 
-function import_admin {
  echo "============ Start import_admin ================"
- for input_osm_pbf in "/osm/import/*.pbf"; do
+
   /tools/latest/imposm3 import \
    -mapping /osm/setup/imposm3_admin_mapping.yml  \
-   -read $input_osm_pbf \
+   -read $inputpbf \
    -write    \
    -optimize  \
    -overwritecache \
    -deployproduction \
    -connection $PG_CONNECT
-  break
- done
-}
-import_admin
 

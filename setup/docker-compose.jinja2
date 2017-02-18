@@ -1,72 +1,34 @@
-
 # generated : {{utcnow}}  // template : /setup/docker-compose.jinja2
 version: '2'
-
-volumes:
-  postgres_data: {}
-
 services:
-
-  # for the setup
-  db:
-    image: mdillon/postgis:9.6 
-    volumes:
-      - postgres_data:/var/lib/postgresql/data    
-    tmpfs:
-     - /tmp
-    environment:
-     - POSTGRES_DB=osm
-     - POSTGRES_USER=osm
-     - POSTGRES_PASSWORD=osm 
-
-  # for the setup & development  
-  taginfo_dev:
-    extends:
-      file: common-services.yml
-      service: taginfo_job
-    volumes:
-     - ./taginfo_data/ni/data:/osm/data
-     - ./taginfo_data/ni:/osm/cfg
-     - ./taginfo_data:/osm/taginfo_data
-     - ./import:/osm/import
-     - ./export:/osm/export
-     - ./setup:/osm/setup
-     - ./sh:/osm/sh
-    environment:
-     - INPUT_OSM=central-america-latest.osm.pbf
-     - AREA_ID=ni
-    links:
-     - db:db
-    environment:
-     - PGHOST=db         
-     - PGUSER=osm
-     - PGDATABASE=osm
-     - PGPASSWORD=osm
-
-
 {% for item in items %}
   #---------------------------------------------------------
   # testing service for : "{{item.iso}}" - "{{item.name_en}}"
+  #            continent: "{{continent}}"
   #
-  taginfo_job_{{item.iso}}:
-    extends:
-      file: common-services.yml
-      service: taginfo_job
+  taginfo_job_{{continent}}_{{item.iso}}:
+    image: taginfo_job
     volumes:
-     - ./taginfo_data/{{item.iso}}/data:/osm/data
-     - ./taginfo_data/{{item.iso}}:/osm/cfg
+     - ./{{item.iso}}/data:/osm/data
+     - ./{{item.iso}}:/osm/cfg
+     - ../../import:/osm/import
+     - ../../sh:/osm/sh     
     environment:
-     - INPUT_OSM=central-america-latest.osm.pbf
      - AREA_ID={{item.iso}}
      - AREA_NAME="{{item.name_en}}"
+     - CONTINENT={{continent}}
+     - CONTINENT_LONG={{continent_long}}
 
-  taginfo_view_{{item.iso}}:
-    extends:
-      file: common-services.yml
-      service: taginfo_view
+  taginfo_view_{{continent}}_{{item.iso}}:
+    mem_limit: 50M
+    restart: always
+    image: taginfo_view  
+    ports:
+    - "{{item.port_order}}:4567"      
     volumes:
-     - ./taginfo_data/{{item.iso}}/data:/osm/data
-     - ./taginfo_data/{{item.iso}}:/osm/cfg
+     - ./{{item.iso}}/data:/osm/data
+     - ./{{item.iso}}:/osm/cfg
+     - ../../sh:/osm/sh
 {% endfor %}
 
 # generated : {{utcnow}}  // template : /setup/docker-compose.jinja2

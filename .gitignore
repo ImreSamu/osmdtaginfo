@@ -1,0 +1,17 @@
+# Data files
+import/
+export/
+service/
+caddy/
+
+setup/ne_10m_admin_0_countries.README.html
+setup/ne_10m_admin_0_countries.VERSION.txt
+setup/ne_10m_admin_0_countries.cpg
+setup/ne_10m_admin_0_countries.dbf
+setup/ne_10m_admin_0_countries.prj
+setup/ne_10m_admin_0_countries.shp
+setup/ne_10m_admin_0_countries.shx
+setup/ne_10m_admin_0_countries.zip
+
+
+

@@ -11,6 +11,8 @@ except:
   print "Connection to database failed"
 
 
+CONTINENT = os.environ.get('CONTINENT', 'xx')
+
 def run_background_map_gen():
         curiso = conn.cursor()
         try:
@@ -28,10 +30,6 @@ def run_background_map_gen():
             createisomap(row[0],row[2],row[3],row[4] )
 
 
-
-
-
-   
 
 def createisomap(iso, mapscale, name , name_en ):
 
@@ -55,11 +53,16 @@ def createisomap(iso, mapscale, name , name_en ):
     s = mapnik.Style() # style object to hold rules
     r = mapnik.Rule() # rule object to hold symbolizers
     # to fill a polygon we create a PolygonSymbolizer
-    polygon_symbolizer = mapnik.PolygonSymbolizer(mapnik.Color('#f2eff9'))
-    r.symbols.append(polygon_symbolizer) # add the symbolizer to the rule object
-    # to add outlines to a polygon we create a LineSymbolizer
-    line_symbolizer = mapnik.LineSymbolizer(mapnik.Color('rgb(50%,50%,50%)'),0.1)
-    r.symbols.append(line_symbolizer) # add the symbolizer to the rule object
+
+    psymbolizer = mapnik.PolygonSymbolizer()
+    psymbolizer.fill = mapnik.Color('#f2eff9')
+    r.symbols.append(psymbolizer)
+
+    lsymbolizer = mapnik.LineSymbolizer()
+    lsymbolizer.stroke = mapnik.Color('rgb(50%,50%,50%)')
+    lsymbolizer.stroke_width = 0.1
+    r.symbols.append(lsymbolizer)
+
     s.rules.append(r) # now add the rule to the style and we're done
 
     m.append_style('My Style',s) # Styles are given names only as they are applied to the map
@@ -85,7 +88,7 @@ def createisomap(iso, mapscale, name , name_en ):
 
     # Write the data to a png image called world.png the current directory
     
-    img_directory='/osm/export/'+iso+'/img/'
+    img_directory='/osm/service/'+CONTINENT+'/'+iso+'/img/'
     if not os.path.exists(img_directory):
          os.makedirs(img_directory)
 
@@ -101,7 +104,6 @@ def createisomap(iso, mapscale, name , name_en ):
 
     ####################  Logo #####################################
 
-#    surface = cairo.ImageSurface(cairo.FORMAT_ARGB32, 258, 98)
     surface = cairo.ImageSurface(cairo.FORMAT_ARGB32, 348, 98)
     ctx = cairo.Context (surface)
     ctx.select_font_face("Courier", cairo.FONT_SLANT_NORMAL,   cairo.FONT_WEIGHT_BOLD)
@@ -109,7 +111,7 @@ def createisomap(iso, mapscale, name , name_en ):
     ctx.set_font_size(42) 
     ctx.move_to(2, 50)
     ctx.set_source_rgb(0.0, 0.0, 0.15) 
-    ctx.show_text('Taginfo-'+iso)
+    ctx.show_text('Taginfo-'+CONTINENT+'-'+iso)
     
     ctx.select_font_face('Sans') 
     if   len(name_en) > 26 :

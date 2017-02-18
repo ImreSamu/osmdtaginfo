@@ -3,25 +3,25 @@ version: '2'
 services:
   taginfo_job:
     image: taginfo_job  
-    build:
-      context: ./docker/.
-      dockerfile: ./taginfo_job.Dockerfile
+  #  build:
+  #    context: ./docker/.
+  #    dockerfile: ./taginfo_job.Dockerfile
     volumes:
  #    - ./taginfo_data/ht/data:/osm/data
  #    - ./taginfo_data/ht:/osm/cfg
      - ./import:/osm/import
      - ./sh:/osm/sh
-    environment:
-     - INPUT_OSM=central-america-latest.osm.pbf
-     - AREA_ID=ht
+#    environment:
+#     - INPUT_OSM=central-america-latest.osm.pbf
+#     - AREA_ID=ht
 
   taginfo_view:
     mem_limit: 50M
     restart: always
     image: taginfo_view
-    build:
-      context: ./docker/.
-      dockerfile: ./taginfo_view.Dockerfile
+#    build:
+#      context: ./docker/.
+#      dockerfile: ./taginfo_view.Dockerfile
     volumes:
 #     - ./taginfo_data/ht/data:/osm/data
 #     - ./taginfo_data/ht:/osm/cfg

@@ -1,4 +1,4 @@
-FROM debian:jessie 
+FROM debian:testing 
 ### Docker for : taginfo-job +  setup 
 
 ### For the Taginfo JOB
@@ -64,7 +64,7 @@ RUN apt-get update \
 ### install tools ( osmctools - for OSM filtering!  mc: for debugging)
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
-       osmctools \
+       osmium-tool \
        mc \
        unzip \
     && rm -rf /var/lib/apt/lists/
@@ -81,8 +81,7 @@ RUN mkdir /tools \
 RUN cd /tools \
     && wget https://github.com/julien-noblet/download-geofabrik/releases/download/v2.0.0/download-geofabrik-android_amd64.zip \
     && unzip download-geofabrik-android_amd64.zip \
-    && rm download-geofabrik-android_amd64.zip \
-    && ./download-geofabrik update
+    && rm download-geofabrik-android_amd64.zip 
 
 ### install taginfo
 RUN    mkdir -p /osm/taginfo/ \

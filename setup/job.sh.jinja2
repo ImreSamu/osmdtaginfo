@@ -1,0 +1,11 @@
+# generated : {{utcnow}}  // template : ./setup/job.sh.jinja2
+
+{% for item in items %}
+ echo " Start processing {{continent}}_{{item.iso}} - {{item.name_en}} "
+ time docker-compose run --rm taginfo_job_{{continent}}_{{item.iso}} /osm/sh/osm_split.sh
+ time docker-compose run --rm taginfo_job_{{continent}}_{{item.iso}} /osm/sh/osm_jobinit.sh
+ time docker-compose restart taginfo_view_{{continent}}_{{item.iso}}
+
+{% endfor %}
+
+# generated : {{utcnow}}

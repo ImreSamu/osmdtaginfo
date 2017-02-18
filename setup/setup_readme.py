@@ -7,6 +7,10 @@ import yaml
 import psycopg2
 import datetime
 
+import sys
+reload(sys)
+sys.setdefaultencoding('utf-8')
+
 script_root = os.path.dirname(__file__)
 
 try:
@@ -15,6 +19,7 @@ try:
 except:
   print "Connection to database failed"
 
+CONTINENT = os.environ.get('CONTINENT', 'xx')
 
 def run_readme_gen():
         curiso = conn.cursor()
@@ -48,15 +53,16 @@ def create_readme(items):
     template = environment.get_template(template_name)
     tagconf = template.render(
         items=items,
+        continent=CONTINENT,
         utcnow=datetime.datetime.utcnow().strftime('%Y-%m-%d:%H:%M').decode("utf8"),
     )
-    print tagconf
+    print tagconf.encode('utf-8')
 
-    readme_directory='/osm/export/'
+    readme_directory='/osm/service/'  + CONTINENT +'/'
     if not os.path.exists(readme_directory):
          os.makedirs(readme_directory)
 
-    fconf = open( readme_directory + 'README_fix.md', 'w')
+    fconf = open( readme_directory + 'README.md', 'w')
     fconf.write(tagconf.encode("utf8"))
     fconf.close()
 

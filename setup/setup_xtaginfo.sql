@@ -6,6 +6,8 @@
 ---
 ---
 ;;;
+\set VERBOSITY terse
+;;;
 CREATE OR REPLACE FUNCTION imposmid2shortid (id BIGINT ) RETURNS text AS $$
 BEGIN
  RETURN CASE
@@ -45,24 +47,35 @@ DECLARE
     yppd numeric;
     moda numeric[] ;
 BEGIN
-    moda= ARRAY [0.01,0.02,0.03,0.04];
+    moda= ARRAY [0.000,0.001,0.002,0.003,0.004,0.005,0.006,0.007,0.008,0.009
+                ,0.010,0.011,0.012,0.013,0.014,0.015,0.016,0.017,0.018,0.019
+                ,0.020,0.021,0.022,0.023,0.024,0.025,0.026,0.027,0.028,0.029
+                ,0.030,0.031,0.032,0.033,0.034,0.035,0.036,0.037,0.038,0.039
+                ,0.040,0.041,0.042,0.043,0.044,0.045,0.046,0.047,0.048,0.049
+                ,0.050,0.051,0.052,0.053,0.054,0.055,0.056,0.057,0.058,0.059 
+                ,0.060,0.061,0.062,0.063,0.064,0.065,0.066,0.067,0.068,0.069
+                ,0.070,0.071,0.072,0.073,0.074,0.075,0.076,0.077,0.078,0.079
+                ,0.080,0.081,0.082,0.083,0.084,0.085,0.086,0.087,0.088,0.089 
+                ,0.09];
     last_ok =0 ;
     xd = abs(xmax-xmin);
     yd = abs(ymax-ymin); 
-    RAISE NOTICE '# xd=% , yd=% ', xd ,yd ;
+    -- RAISE NOTICE '         # xd=% , yd=% ', xd ,yd ;
     FOR i IN 1..30000 LOOP
         xs = i * xd ;
         ys = i * yd ;
-        --- RAISE NOTICE '# % , % , %', i , xs, ys ;
-        --- IF ( xs * ys ) = round ( xs * ys,0 )
-        ---    and xs=round(xs) 
-        ---   and ys=round(ys)  THEN
-        ---     -- RAISE NOTICE 'OK = % , % , %', i , xs, ys ;
-        ---     last_ok = i; 
-        --- END IF;  
 
+        --RAISE NOTICE '# % , % , %', i , xs, ys ;
+          --- IF ( xs * ys ) = round ( xs * ys,0 )
+          ---    and xs=round(xs) 
+          ---   and ys=round(ys)  THEN
+          ---     -- RAISE NOTICE 'OK = % , % , %', i , xs, ys ;
+          ---     last_ok = i; 
+          --- END IF;  
 
-        IF  xs * ys  >= ( 256*256) THEN
+        IF  xs * ys  > ( 255*255) THEN
+
+        -- RAISE NOTICE '=====================';
         FOR ri IN REVERSE i..0 LOOP
         --FOR ri IN REVERSE 59..50 LOOP
            FOREACH  yppd IN ARRAY moda LOOP
@@ -71,13 +84,14 @@ BEGIN
                   xs=ri* (xd+   xppd ) ;
                   ys=ri* (yd+   yppd ) ; 
 
-                  --- zzz = (xd+xppd::numeric/100) ;
-                  --- RAISE NOTICE 'Z# = % ', zzz ; 
-                  --- RAISE NOTICE 'R# = % , % , % ,% ,%', ri , xs, ys,  xppd, yppd ; 
+                     --- zzz = (xd+xppd::numeric/100) ;
+                     --- RAISE NOTICE 'Z# = % ', zzz ; 
+                  --RAISE NOTICE 'R# = % , % , % ,% ,%,% ,%', ri , xs, ys,  xppd, yppd , xd, yd ; 
+
                   IF     
                              xs=round(xs) 
                          and ys=round(ys) 
-                         and (  xs * ys ) <= (256*256) 
+                         and (  xs * ys ) <= (255*255) 
                          THEN
                          RAISE NOTICE 'OKÉ R# = % , % , % ,% ,%', ri , xs, ys,  xppd, yppd ; 
                          --- RAISE NOTICE 'OKÉÉÉÉ = % , % , %', ri , xs, ys ;
@@ -93,7 +107,7 @@ BEGIN
         END IF;
 
         
-        IF  xs * ys  >= ( 256*256) 
+        IF  xs * ys  >= ( 255*255) 
         THEN  
            RETURN ARRAY[0,0,0,0,0,0]  ;
         END IF;   
@@ -124,22 +138,25 @@ select  name
        ,wikidata
        ,wikipedia
        ,flag
+       ,row_number() OVER ( ORDER BY lower(iso3166_1) ) as port_order 
        ,geometry
 from osm_admin2 
 where   admin_level =2 
-    and iso3166_1 <> ''
+        and iso3166_1 <> ''
      --  and name like  'M%'
 )
 , sdata as
 (
 Select  get_xtaginfo(txmin , txmax , tymin , tymax )  as taginfo_scale
-       , * from pdata )
+       , * from pdata 
+         --where iso ='ao'
+       )
 
 select   *
 from sdata
-order by iso;
+order by iso desc;
 
-
+select iso, taginfo_scale from xtaginfo ; 
 
 
  

@@ -22,7 +22,10 @@ tables:
       type: string
     - key: 'ISO3166-1'
       name: iso3166_1
-      type: string                  
+      type: string   
+    - key: 'ISO3166-2'
+      name: iso3166_2
+      type: string    
     - key: admin_level
       name: admin_level
       type: integer
